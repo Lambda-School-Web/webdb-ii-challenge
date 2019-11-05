@@ -10,7 +10,7 @@ module.exports = {
 function get(id) {
   //db stuff here
   if (id) {
-    return db("cars").where("id", id);
+    return db("cars").where({ id });
   }
 
   return db("cars");
@@ -23,9 +23,14 @@ function insert(car) {
 }
 
 function update(id, changes) {
-  //db stuff here
+  return db("cars")
+    .where({ id })
+    .update(changes)
+    .then(count => (count ? this.get(id) : null));
 }
 
 function remove(id) {
-  //db stuff here
+  return db("cars")
+    .where({ id })
+    .del();
 }
